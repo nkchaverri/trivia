@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="es">
+<head>
+	<meta charset="UTF-8">
+	<title>Proyecto</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+
+</head>
+<body>
+
+<style>
+    body{
+    width: 960px;
+    margin: 0 auto;}
+ 
+    h1{
+    text-align: center;}
+
+    p{
+        text-align: center;
+    }
+    li{
+        font-size: 20px;
+    }
+
+    span{
+        padding-right: 15px;
+    }
+
+    .collapse .navbar-collapse p{
+    display: inline-block; } 
+
+     #divResultados p{
+        text-align: left;
+    }
+
+</style>
+
+<script type="text/x-jquery-tmpl" id="cuestionarioTemplate">
+    <ul class="list-group">
+        {{each(iPregunta, pregunta) Preguntas}}
+        <li class="list-group-item"><span class="glyphicon ${pregunta.iconClass}"></span>${pregunta.Pregunta}
+        <div class="btn-group btn-group-justified" data-toggle="buttons">
+            {{each(iRespuesta, respuesta) pregunta.Respuestas}}
+            <label id="opcion_${iPregunta}_${iRespuesta}" class="btn btn-default btnOpciones"  >
+                <input type="radio"  name="opcionRespuesta${iPregunta}" class="opcionesRespuesta" data-infoPregunta="${iPregunta}" data-infoRespuesta= "${iRespuesta}" /> ${respuesta}
+            </label>
+            {{/each}}
+        </div>
+        </li>
+        {{/each}}
+    </ul> 
+</script>
+
+<div class="page-header">
+    <h1>Trivia <small>Juego de preguntas aleatorias</small></h1>
+</div><!--fin div header-->
+
+<div id="divPrincipal"> <!--inicio div principal-->
+
+    <h2>Temas</h2>
+    <p class="lead">Escoja el tema de su preferencia, o elija la opcion variado para obtener una mezcla de estos</p>
+
+    <div class="btn-group btn-group-justified" data-toggle="buttons">
+                <label class="btn btn-primary" ><span class="glyphicon glyphicon-blackboard"></span>
+                    <input class="opcionTema" type="radio" id="arte" name="temas" value="0" /> ARTE
+                </label>
+                <label class="btn btn-info"><span class="glyphicon glyphicon-film"></span>
+                    <input class="opcionTema" type="radio" id="cine" name="temas" value="1" /> CINE
+                </label>
+                <label class="btn btn-warning"> <span class="glyphicon glyphicon-music"></span>
+                    <input class="opcionTema" type="radio" id="musica" name="temas" value="2" /> MUSICA
+                </label>
+                <label class="btn btn-success"> <span class="glyphicon glyphicon-th"></span>
+                    <input class="opcionTema" type="radio" id="variado" name="temas" value="-1" /> VARIADO
+                </label>
+    </div> <!--inicio div temas-->
+
+
+    <h2>Dificultad</h2>
+    <p class="lead">Elija el nivel bajo de 5 preguntas o el avanzado de 10</p>
+
+    <div class="btn-group btn-group-justified " data-toggle="buttons">
+                <label class="btn btn-success">
+                    <input class= "opcionDificultad" type="radio" id="5preguntas" name="dificultad" value="5" data-nombre="BAJO"/> BAJO
+                </label>
+                <label class="btn btn-danger">
+                    <input class= "opcionDificultad" type="radio" id="10preguntas" name="dificultad" value="10"  data-nombre="AVANZADO"/> AVANZADO
+                </label>
+    </div> <!--inicio div dificultad-->
+<br>
+<div class="btn-group btn-group-justified" role="group" aria-label="...">
+  <div class="btn-group" role="group">
+    <button type="button" class="btn btn-default disabled" id="btnJugar">EMPEZAR A JUGAR</button>
+  </div>
+</div> <!--inicio div juego-->
+                 
+</br>
+</div><!--Fin del div principal-->
+
+
+
+<div id="divCuestionario"><!--Inicio del div del cuestionario-->
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">STATUS</a>
+    </div><!--Inicio del div container-fluid-->
+    <div class="collapse navbar-collapse">
+          <p class="navbar-text"><strong>PREGUNTA</strong> <span id="restantes">X</span> de <span id="totales">X</span></p>
+          <p class="navbar-text navbar-right"><strong>TEMA:</strong> <span id="temaActual">X</span> <span class="glyphicon"></span></p>
+          <p class="navbar-text navbar-right"><strong>DIFICULTAD:</strong> <span id="dificultad">X</span></p>
+    </div><!--Inicio del div nav collapse-->
+</nav>  
+
+<h2>Cuestionario</h2>
+
+<p class="lead">Elija una única opción para cada pregunta <br>
+                Cada respuesta correcta tiene un valor de 10 puntos</p>
+
+<form action="post" id="formCuestionario">
+<!--Aca se ingresa el cuestionario con el template-->
+</form>
+</br>
+
+<div class="btn-group btn-group-justified" role="group" aria-label="...">
+  <div class="btn-group" role="group">
+    <button type="button" class="btn btn-default disabled" id="btnSubmit">SUBMIT</button>
+  </div>
+</div><!--Inicio del boton submit-->
+
+</div><!--Fin del div cuestionario-->
+
+<div id="divResultados">
+<h2>Resultados</h2>
+<p class="lead"><strong>Total de preguntas correctas = </strong><span id="correctas"></span></p>
+<p class="lead"><strong>Total de preguntas incorrectas = </strong><span id="incorrectas"></span></p>
+<p class="lead"><strong>Puntaje Obtenido = </strong><span id="puntaje"></span></p> 
+
+</div><!--Fin del div resultado-->
+
+<script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>  
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<script src="http://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js"></script>
+<script type="text/javascript" src="proyecto.js"></script>
+
+	
+</body>
+</html>
